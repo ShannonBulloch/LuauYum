@@ -78,6 +78,14 @@ class Manapua(Card):
         else:
             return self.POINTS[num_cards-1]        
 
+    def get_info(self):
+        info = '{}'.format(self.name)
+        for index, points in enumerate(self.POINTS):
+            if index < 4:
+                info = info + ', x{}={}'.format(index+1, points)
+            else:
+                info = info + ', x{}+={}'.format(index+1, points)
+        return info
 
 class Haupia(Card):
     # Haupia
@@ -143,7 +151,9 @@ class CardWithMinimum(Card):
         super().__init__(name=name, value=value)
         self.num_req = num_req
 
-    def get_points(self, cards_same_type):
+    def get_points(self, cards_same_type=None):
+        if not cards_same_type:
+            return 0
         num_of_groups = floor(len(cards_same_type)/cards_same_type[0].num_req)
         return num_of_groups * cards_same_type[0].value
 
